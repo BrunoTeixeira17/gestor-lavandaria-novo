@@ -5,45 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestor de Lavandaria</title>
   <style>
-
-    .login-wrap {
-      max-width: 460px;
-      margin: 70px auto;
-    }
-    .login-card {
-      background: white;
-      border-radius: 14px;
-      padding: 28px;
-      box-shadow: 0 3px 14px rgba(0,0,0,.08);
-    }
-    .login-card h2 { margin-top: 0; }
-    .login-error {
-      color: #b91c1c;
-      margin-top: 12px;
-      font-weight: 600;
-    }
-    .hidden { display: none !important; }
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .logout {
-      width: auto;
-      padding: 9px 14px;
-      background: #475569;
-    }
-    .role-badge {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 999px;
-      background: #dcfce7;
-      color: #166534;
-      font-size: 13px;
-      font-weight: 700;
-    }
     * { box-sizing: border-box; }
     body {
       margin: 0;
@@ -132,36 +93,10 @@
 <body>
   <header>
     <h1>Gestor de Lavandaria</h1>
-    <p>Área protegida</p>
+    <p>Nova aplicação — módulo de faturação</p>
   </header>
 
   <main>
-    <section id="loginView" class="login-wrap">
-      <div class="login-card">
-        <h2>Entrar</h2>
-        <p>Introduza o email e a palavra-passe para continuar.</p>
-
-        <label for="loginEmail">Email</label>
-        <input id="loginEmail" type="email" autocomplete="username"
-               placeholder="Email">
-
-        <label for="loginPassword">Palavra-passe</label>
-        <input id="loginPassword" type="password" autocomplete="current-password"
-               placeholder="Palavra-passe">
-
-        <button id="loginButton" type="button">Entrar</button>
-        <div id="loginError" class="login-error"></div>
-      </div>
-    </section>
-
-    <section id="appView" class="hidden">
-      <div class="topbar">
-        <div>
-          <span class="role-badge">ADMINISTRADOR</span>
-          <div id="loggedUser" style="margin-top:8px;"></div>
-        </div>
-        <button id="logoutButton" class="logout" type="button">Sair</button>
-      </div>
     <div class="cards">
       <div class="card">
         <small>Faturação de hoje</small>
@@ -214,57 +149,6 @@
   </main>
 
   <script>
-    // PROTÓTIPO TEMPORÁRIO:
-    // estas credenciais estão no código do navegador e NÃO constituem autenticação segura.
-    // Na próxima etapa vamos substituir isto por autenticação real.
-    const ADMIN_EMAIL = "brunoteixeira1208@gmail.com";
-    const ADMIN_PASSWORD = "bteixeira17";
-    const SESSION_KEY = "gestor_lavandaria_session";
-
-    const loginView = document.getElementById("loginView");
-    const appView = document.getElementById("appView");
-    const loginEmail = document.getElementById("loginEmail");
-    const loginPassword = document.getElementById("loginPassword");
-    const loginError = document.getElementById("loginError");
-
-    function showApp() {
-      loginView.classList.add("hidden");
-      appView.classList.remove("hidden");
-      document.getElementById("loggedUser").textContent =
-        "Sessão iniciada como " + ADMIN_EMAIL;
-    }
-
-    function showLogin() {
-      appView.classList.add("hidden");
-      loginView.classList.remove("hidden");
-      loginEmail.value = "";
-      loginPassword.value = "";
-      loginError.textContent = "";
-    }
-
-    document.getElementById("loginButton").addEventListener("click", function () {
-      const email = loginEmail.value.trim().toLowerCase();
-      const password = loginPassword.value;
-
-      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        sessionStorage.setItem(SESSION_KEY, "admin");
-        showApp();
-      } else {
-        loginError.textContent = "Email ou palavra-passe incorretos.";
-      }
-    });
-
-    loginPassword.addEventListener("keydown", function (event) {
-      if (event.key === "Enter") {
-        document.getElementById("loginButton").click();
-      }
-    });
-
-    document.getElementById("logoutButton").addEventListener("click", function () {
-      sessionStorage.removeItem(SESSION_KEY);
-      showLogin();
-    });
-
     const STORAGE_KEY = "gestor_lavandaria_faturacao";
     const form = document.getElementById("billingForm");
     const dateInput = document.getElementById("date");
@@ -369,12 +253,6 @@
       amountInput.value = "0";
       descriptionInput.value = "";
     });
-
-    if (sessionStorage.getItem(SESSION_KEY) === "admin") {
-      showApp();
-    } else {
-      showLogin();
-    }
 
     render();
   </script>
